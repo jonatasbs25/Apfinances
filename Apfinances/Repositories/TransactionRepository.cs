@@ -1,5 +1,6 @@
 ﻿using Apfinances.Data;
 using Apfinances.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Apfinances.Repositories
 {
@@ -12,8 +13,34 @@ namespace Apfinances.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Transaction>> GetTransactions() =>
-            await _context.Transaction.ToList();
+        public async Task<IEnumerable<Transaction>> FindTransactionsAsync() => await _context
+            .Transactions
+            .ToListAsync();
+
+        public async Task<Transaction?> FindTransactionByIdAsync(int? id) => await _context
+            .Transactions
+            .FindAsync(id);
+
+        public async Task<int> CreateTransactionAsync(Transaction transaction)
+        {
+            _context.Transactions.Add(transaction);
+
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> UpdateTransactionAsync(Transaction transaction)
+        {
+            _context.Transactions.Update(transaction);
+
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> DeleteTransactionAsync(Transaction transaction)
+        {
+            _context.Transactions.Remove(transaction);
+
+            return await _context.SaveChangesAsync();
+        }
 
         #region Dispose
         private bool disposed = false;

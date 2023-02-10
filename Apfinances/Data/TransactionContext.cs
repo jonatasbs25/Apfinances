@@ -10,6 +10,6 @@ namespace Apfinances.Data
         {
         }
 
-        public DbSet<Transaction> Transaction { get; set; } = null!;
+        public DbSet<Transaction> Transactions { get; set; } = null!;
     }
 }
